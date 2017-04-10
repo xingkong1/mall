@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<servlet>
+		<servlet-name>ForeServlet</servlet-name>
+		<servlet-class>mall.servlet.ForeServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ForeServlet</servlet-name>
+		<url-pattern>/foreServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>OrderServlet</servlet-name>
+		<servlet-class>mall.servlet.OrderServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>OrderServlet</servlet-name>
+		<url-pattern>/orderServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>mall.servlet.UserServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/userServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ProductImageServlet</servlet-name>
+		<servlet-class>mall.servlet.ProductImageServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ProductImageServlet</servlet-name>
+		<url-pattern>/productImageServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CategoryServlet</servlet-name>
+		<servlet-class>mall.servlet.CategoryServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CategoryServlet</servlet-name>
+		<url-pattern>/categoryServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>mall.servlet.ProductServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/productServlet</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>PropertyServlet</servlet-name>
+		<servlet-class>mall.servlet.PropertyServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PropertyServlet</servlet-name>
+		<url-pattern>/propertyServlet</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>mall.filter.EncodingFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>BackServletFilter</filter-name>
+		<filter-class>mall.filter.BackServletFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>BackServletFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+	<filter-name>ForeAuthFilter</filter-name>
+	<filter-class>mall.filter.ForeAuthFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	<filter-name>ForeAuthFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<filter>
+		<filter-name>ForeServletFilter</filter-name>
+		<filter-class>mall.filter.ForeServletFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>ForeServletFilter</filter-name>
+		<dispatcher>forward</dispatcher>
+		<dispatcher>request</dispatcher>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+   <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+
+
+
+</web-app>
