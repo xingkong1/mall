@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+  <mapper namespace="mall.dao.OrderDAO">
+  
+     <sql id="fields">
+         orderCode, address, post, receiver, mobile, userMessage, createDate, payDate,
+         deliveryDate, confirmDate, uid ,status
+     </sql>
+     
+     <sql id="fields_value">
+         #{orderCode}, #{address}, #{post}, #{receiver}, #{mobile}, #{userMessage},
+         #{createDate}, #{payDate}, #{deliveryDate}, #{confirmDate}, #{user.id},#{status}
+     </sql>
+     
+     <resultMap type="order" id="orderResult">
+     <id property="id" column="oid"/>
+     <result property="orderCode" column="orderCode"/>
+     <result property="address" column="address"/>
+     <result property="post" column="post"/>
+     <result property="receiver" column="receiver"/>
+     <result property="mobile" column="mobile"/>
+     <result property="userMessage" column="userMessage"/>
+     <result property="createDate" column="createDate"/>
+     <result property="payDate" column="payDate"/>
+     <result property="deliveryDate" column="deliveryDate"/>
+     <result property="confirmDate" column="confirmDate"/>
+     <result property="status" column="status"/>
+     <association property="user" column="o_uid" javaType="user">
+     <id property="id" column="uid"/>
+     <result property="name" column="name"/>
+     <result property="password" column="password"/>
+     </association>
+     </resultMap>
+  
+     <insert id="add" parameterType="order" keyProperty="id">
+        insert into order_(<include refid="fields"/>) 
+        values(<include refid="fields_value"/>)
+     </insert>
+     
+     <delete id="delete">
+     delete from order_ where id=#{id}
+     </delete>
+     
+     <update id="update">
+     update order_ 
+     <set>
+     <if test="orderCode !=null">
+        orderCode=#{orderCode},
+     </if>
+     address=#{address},post=#{post},receiver=#{receiver},mobile=#{mobile},userMessage=#{userMessage},
+     payDate=#{payDate},deliveryDate=#{deliveryDate},confirmDate=#{confirmDate},uid=#{user.id},status=#{status}
+     </set>
+      where id=#{id}
+     </update>
+     
+     <select id="get" resultMap="orderResult">
+     select o.id oid ,orderCode, address, post, receiver, mobile, userMessage, createDate, payDate,
+         deliveryDate, confirmDate ,status, uid o_uid , u.id uid ,name ,password
+         from order_ o left join user u on o.uid=u.id where o.id=#{id}
+     </select>
+     
+     <select id="getTotal">
+     select count(*) from order_
+     </select>
+     
+     <select id="listOrders" resultMap="orderResult">
+     select o.id oid ,orderCode, address, post, receiver, mobile, userMessage, createDate, payDate,
+         deliveryDate, confirmDate, status , uid o_uid , u.id uid ,name ,password
+         from order_ o left join user u on o.uid=u.id order by o.id limit #{start},#{count}
+     </select>
+     
+     <select id="listOrdersByUser" resultMap="orderResult">
+       select o.id oid ,orderCode, address, post, receiver, mobile, userMessage, createDate, payDate,
+         deliveryDate, confirmDate, status , uid o_uid , u.id uid ,name ,password
+         from order_ o left join user u on o.uid=u.id 
+          where o.uid=#{uid} and status !=#{excludedStatus} order by o.id limit #{start},#{count}
+     </select>
+     
+  </mapper>

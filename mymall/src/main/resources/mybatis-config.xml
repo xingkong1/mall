@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置全局属性 -->
+	<settings>
+		<!-- 使用jdbc的getGeneratedKeys获取数据库自增 主键值 -->
+		<setting name="useGeneratedKeys" value="true" />
+		<!-- 使用列别名替换列名，默认为true -->
+		<setting name="useColumnLabel" value="true"/>
+		<!-- 开启 驼峰命名法-->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 开启 延迟加载 -->
+	
+	</settings>
+	<typeAliases>
+	<typeAlias type="mall.entity.Category" alias="category"/>
+	<typeAlias type="mall.entity.Product" alias="product"/>
+	<typeAlias type="mall.entity.PropertyValue" alias="propertyValue"/>
+	<typeAlias type="mall.entity.Property" alias="property"/>
+	<typeAlias type="mall.entity.ProductImage" alias="productImage"/>
+	<typeAlias type="mall.entity.User" alias="user"/>
+	<typeAlias type="mall.entity.Order" alias="order"/>
+	<typeAlias type="mall.entity.OrderItem" alias="orderItem"/>
+	<typeAlias type="mall.entity.Review" alias="review"/>
+	
+	</typeAliases>
+	 
+</configuration>

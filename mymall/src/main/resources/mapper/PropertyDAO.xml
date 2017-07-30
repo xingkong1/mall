@@ -1,0 +1,60 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mall.dao.PropertyDAO">
+
+	<resultMap type="Property" id="propertyResult">
+		<id property="id" column="property_id" />
+		<result property="name" column="property_name" />
+		<association property="category" column="property_category_id"
+			javaType="Category">
+			<id property="id" column="category_id" />
+			<result property="name" column="category_name" />
+		</association>
+	</resultMap>
+
+	<insert id="add" parameterType="Property" keyProperty="id">
+		insert
+		into property(cid,name) values(#{category.id},#{name})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from property where id
+		= #{id}
+	</delete>
+
+	<update id="update" parameterType="Property">
+		update user set name=#{name} ,
+		cid=#{category.id} where id=#{id}
+	</update>
+
+	<select id="get" resultMap="propertyResult" parameterType="int">
+		select p.id as
+		property_id , p.name as property_name, p.cid as property_category_id
+		, c.id as category_id , c.name as category_name
+		from property p
+		left outer join category c on p.cid=c.id where p.id=#{id}
+	</select>
+
+	<select id="listAll" resultMap="propertyResult">
+		select p.id as
+		property_id , p.name as property_name, p.cid as property_category_id
+		, c.id as category_id , c.name as category_name
+		from property p
+		left outer join category c on p.cid=c.id 
+	</select>
+
+	<select id="listBycid" resultMap="propertyResult">
+		select p.id as
+		property_id , p.name as property_name, p.cid as property_category_id
+		, c.id as category_id , c.name as category_name
+		from property p
+		left outer join category c on p.cid=c.id where p.cid = #{cid} 
+		order by p.id desc limit #{start},#{count}
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(*) from property where cid = #{cid};
+	</select>
+
+</mapper>

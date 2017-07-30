@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop            
+           http://www.springframework.org/schema/aop/spring-aop.xsd  
+            http://www.springframework.org/schema/tx            
+           http://www.springframework.org/schema/tx/spring-tx.xsd  
+           "><!-- 要添加最后2行 -->
+
+	<!-- 注解配置 -->
+	<!-- 扫描service包下所有使用注解的类型 -->
+	<context:annotation-config />
+	<context:component-scan base-package="org.seckill.service" />
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 配置基于注解的申明式事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+</beans>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="mall.dao.ProductDAO">
+   
+   <resultMap type="product" id="ProductResult">
+    <id property="id" column="pid"/>
+    <result property="name" column="pname"/>
+    <result property="subTitle" column="subTitle"/>
+    <result property="orignalPrice" column="orignalPrice"/>
+    <result property="promotePrice" column="promotePrice"/>
+    <result property="stock" column="stock"/>
+    <result property="createDate" column="createDate"/>
+    <association property="category" column="p_cid" javaType="category">
+    <id property="id" column="cid"/>
+    <result property="name" column="cname"/>
+    </association>
+   </resultMap>
+   
+  <insert id="add" parameterType="product" keyProperty="id">
+		insert into product(name,subTitle,orignalPrice,promotePrice,stock,cid,createDate
+		) values(#{name},#{subTitle},#{orignalPrice},#{promotePrice},#{stock},#{category.id},#{createDate})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from product where id = #{id}
+	</delete>
+
+	<update id="update" parameterType="product">
+		update product set name=#{name},subTitle=#{subTitle},orignalPrice=#{orignalPrice},
+		promotePrice=#{promotePrice},stock=#{stock},cid=#{category.id},createDate=#{createDate}
+		where id=#{id}
+	</update>
+
+	<select id="get" resultMap="ProductResult">
+		select p.id pid, p.name pname,subTitle,orignalPrice,promotePrice,stock,createDate,p.cid as p_cid,
+		c.id cid,c.name cname
+		 from product p left outer join category c on p.cid=c.id 
+		  where p.id=#{id} order by p.id
+	</select>
+
+	<select id="listByCategory" resultMap="ProductResult">
+		select p.id pid, p.name pname,subTitle,orignalPrice,promotePrice,stock,createDate,p.cid as p_cid,
+		c.id cid,c.name cname
+		from product p left outer join category c on p.cid=c.id
+	     where cid = #{cid} order by p.id desc limit #{start},#{count}
+	</select>
+
+	<select id="listProducts" resultMap="ProductResult">
+		select p.id pid, p.name pname,subTitle,orignalPrice,promotePrice,stock,createDate,p.cid as p_cid,
+		c.id cid,c.name cname
+		from product p left outer join category c on p.cid=c.id order by p.id
+		limit #{start},#{count}
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(*) from product where cid = #{cid};
+	</select>
+	
+	<select id="search" resultMap="ProductResult">
+	  select p.id pid, p.name pname,subTitle,orignalPrice,promotePrice,stock,createDate,p.cid as p_cid,
+		c.id cid,c.name cname
+		from product p left outer join category c on p.cid=c.id 
+		<where>
+		<if test="keyword !='' and keyword !=null">
+		 p.name like concat('%',#{keyword},'%') limit #{start},#{count}
+		</if>
+	  </where>
+	  
+	</select>
+	
+   
+   </mapper>
