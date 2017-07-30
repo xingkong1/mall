@@ -1,0 +1,77 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="mall.dao.ProductImageDAO">
+    
+    <resultMap type="productImage" id="productImageResult">
+    <id property="id" column="pimage_id"/>
+    <result property="type" column="pimage_type"/>
+    <association property="product" column="pimage_product_id" javaType="product">
+    <id property="id" column="pid"/>
+    <result property="name" column="pname"/>
+    <result property="subTitle" column="psubTitle"/>
+    <result property="orignalPrice" column="porignalPrice"/>
+    <result property="promotePrice" column="ppromotePrice"/>
+    <result property="stock" column="pstock"/>
+    <result property="createDate" column="pcreateDate"/>
+    <association property="category" column="pcid" javaType="category">
+    <id property="id" column="cid"/>
+    <result property="name" column="cname"/>
+    </association>
+    </association>
+    </resultMap>
+    
+    <insert id="add" parameterType="productImage" keyProperty="id">
+    insert into productimage(pid,type) values(#{product.id},#{type}) 
+    </insert>
+    
+    <delete id="delete" parameterType="int">
+		delete from productimage where id
+		= #{id}
+	</delete>
+
+	<update id="update" parameterType="productImage">
+		update productimage set type=#{type} ,
+		pid=#{product.id} where id=#{id}
+	</update>
+
+	<select id="get" resultMap="productImageResult" parameterType="int">
+	  select i.id as pimage_id , i.type as pimage_type, i.pid as pimage_product_id,
+	  p.id as pid , p.name as pname , p.subTitle as psubTitle , p.orignalPrice as porignalPrice,
+	  p.promotePrice as ppromotePrice, p.stock as pstock, p.createDate as pcreateDate,p.cid as pcid,
+	  c.id as cid , c.name as cname
+	   from productimage i 
+	  left outer join product p on i.pid=p.id 
+	  left outer join category c on p.cid=c.id
+	  where i.id=#{id}
+	</select>
+
+	<select id="listAll" resultMap="productImageResult">
+		select i.id as pimage_id , i.type as pimage_type, i.pid as pimage_product_id,
+	  p.id as pid , p.name as pname , p.subTitle as psubTitle , p.orignalPrice as porignalPrice,
+	  p.promotePrice as ppromotePrice, p.stock as pstock, p.createDate as pcreateDate,p.cid as pcid,
+	  c.id as cid , c.name as cname
+	   from productimage i 
+	  left outer join product p on i.pid=p.id 
+	  left outer join category c on p.cid=c.id
+	  where i.pid=#{pid} and i.type=#{type}
+	</select>
+
+	<select id="list" resultMap="productImageResult">
+		select i.id as pimage_id , i.type as pimage_type, i.pid as pimage_product_id,
+	  p.id as pid , p.name as pname , p.subTitle as psubTitle , p.orignalPrice as porignalPrice,
+	  p.promotePrice as ppromotePrice, p.stock as pstock, p.createDate as pcreateDate,p.cid as pcid,
+	  c.id as cid , c.name as cname
+	   from productimage i 
+	  left outer join product p on i.pid=p.id 
+	  left outer join category c on p.cid=c.id
+	  where i.pid=#{pid} and i.type=#{type}
+	  limit #{start},#{count}
+	  </select>
+
+	<select id="getTotal" resultType="int">
+		select count(*) from productimage;
+	</select>
+
+    </mapper>

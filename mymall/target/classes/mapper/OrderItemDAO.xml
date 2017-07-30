@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="mall.dao.OrderItemDAO">
+ 
+    <resultMap type="orderItem" id="orderItemResult">
+    <id property="id" column="id"/>
+    <result property="number" column="number"/>
+    <association property="user" column="uid" javaType="user" select="mall.dao.UserDAO.get" />
+    <association property="product" column="pid" javaType="product" select="mall.dao.ProductDAO.get" />
+    <association property="order" column="oid" select="mall.dao.OrderDAO.get" javaType="order" />
+    </resultMap>
+ 
+    <insert id="add" parameterType="orderItem" keyProperty="id">
+       insert into orderItem(number,uid,pid,oid) values(#{number},#{user.id},#{product.id},#{order.id})
+    </insert>
+ 
+    <delete id="delete">
+      delete from orderItem where id=#{id};
+    </delete>
+    
+    <update id="update">
+     update orderItem 
+     <set>
+     <if test="number !=0">
+     number=#{number},
+     </if>
+     <if test="user !=null">
+     uid=#{user.id},
+     </if>
+     <if test="product !=null">
+     pid=#{product.id},
+     </if>
+     <if test="order !=null">
+     oid=#{order.id}
+     </if>
+     where id=#{id}
+     </set>
+    </update>
+    
+    <select id="get" resultMap="orderItemResult">
+     select * from orderItem where id=#{id}
+    </select>
+    
+    <select id="listByUser" resultMap="orderItemResult">
+    select * from orderItem where uid=#{uid} and oid=-1 order by id desc limit #{start},#{count}
+    </select>
+    
+    <select id="listByProduct" resultMap="orderItemResult">
+    select * from orderItem where pid=#{pid} order by id limit #{start},#{count}
+    </select>
+    
+    <select id="listByOrder" resultMap="orderItemResult">
+    select * from orderItem where oid=#{oid} order by id limit #{start},#{count}
+    </select>
+    
+    <select id="getTotal">
+    select count(*) from orderItem
+    </select>
+    
+    <select id="getSaleNumber" resultType="int" parameterType="int">
+    select  ifnull(sum(number),0) from orderItem where pid = #{pid}
+    </select>
+    
+ </mapper>
