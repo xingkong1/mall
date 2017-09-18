@@ -15,7 +15,7 @@
 		</c:if>
 		
 		<c:if test="${empty user}">
-			<a href="login.jsp">请登录</a>
+			<a href="${pageContext.request.contextPath}/login">请登录</a>
 			<a href="register.jsp">免费注册</a>		
 		</c:if>
 

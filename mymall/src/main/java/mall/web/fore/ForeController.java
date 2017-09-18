@@ -26,6 +26,12 @@ import mall.service.ProductService;
 import mall.util.Page;
 import mall.util.ProductComparator;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,22 +72,33 @@ public class ForeController {
 		String code=(String)session.getAttribute("validateCode");
 		if(checkCode==null||"".equals(checkCode.trim())||!checkCode.equals(code)){
 			data.put("msg", "checkCode_error");
+			return data;
 		}else{
-			User user=userDAO.getByName(username);
-			if(user==null){
-				data.put("msg", "account_error");
-				return data;
-			}
-			user=userDAO.getByUser(username, password);
-			if(user==null){
-				data.put("msg", "password_error");
-				return data;
-			}
-			data.put("msg", "success");
-			session.setAttribute("user", user);
-			addCookie(username, password, remember, response, request);
+			Subject currentUser = SecurityUtils.getSubject();
+		    if (!currentUser.isAuthenticated()) {
+		    	UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+		        try{
+		        	token.setRememberMe(true);
+		            currentUser.login(token);
+		        	data.put("msg", "success");
+		        }catch(UnknownAccountException ex){
+		        	data.put("msg", "account_error");
+		        }catch(IncorrectCredentialsException ex){
+		        	data.put("msg", "password_error");
+		        }catch(AuthenticationException ex){
+		        	data.put("msg", "authentication_error");
+		        }
+		    }
+		    User user=userDAO.getByName(username);
+		    session.setAttribute("user", user);
+			//addCookie(username, password, remember, response, request);
 		}
 		return data;
+	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String login(){
+		return "forword:/login";
 	}
 	
 	@RequestMapping("/logout")

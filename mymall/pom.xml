@@ -217,10 +217,50 @@
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>5.4.1.Final</version>
-		</dependency>
+	   <groupId>org.hibernate</groupId>
+	   <artifactId>hibernate-validator</artifactId>
+	   <version>4.3.0.Final</version>
+	   </dependency>
+		
+		<!-- shiro权限控制 -->
+	<dependency>
+    	<groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-core</artifactId>
+	    <version>1.2.3</version>
+  	</dependency>
+  	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-web</artifactId>
+	    <version>1.2.3</version>
+  	</dependency>
+  	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-spring</artifactId>
+	    <version>1.2.3</version>
+  	</dependency>
+  	<!-- shiro缓存 -->
+  	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-ehcache</artifactId>
+	    <version>1.2.3</version>
+  	</dependency>
+  	<!-- cglib动态代理 -->
+	<dependency>
+	    <groupId>cglib</groupId>
+	    <artifactId>cglib</artifactId>
+	    <version>2.2.2</version>
+	</dependency>
+	<!-- 其他 -->
+  	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjweaver</artifactId>
+	    <version>1.6.11</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.validation</groupId>
+	    <artifactId>validation-api</artifactId>
+	    <version>1.0.0.GA</version>
+	</dependency>
 
 
 	</dependencies>
