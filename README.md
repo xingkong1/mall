@@ -31,3 +31,12 @@ seckill模块
 解决重复提交、秒杀接口暴露等问题。为了提高QPS, 采用缓存数据、应用存储过程、应用Redis队列来解决并发安全问题。
 
 
+
+![](https://github.com/xingkong1/mall/blob/master/mymall/src/main/webapp/WEB-INF/img/show/2.png)
+
+![](https://github.com/xingkong1/mall/blob/master/mymall/src/main/webapp/WEB-INF/img/show/1.png)
+
+![](https://github.com/xingkong1/mall/blob/master/mymall/src/main/webapp/WEB-INF/img/show/3.png)
+
+![](https://github.com/xingkong1/mall/blob/master/mymall/src/main/webapp/WEB-INF/img/show/4.png)
+
